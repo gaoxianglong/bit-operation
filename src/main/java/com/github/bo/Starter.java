@@ -33,96 +33,100 @@ public class Starter {
         c += bo01(scan);
         c += bo02(scan);
         c += bo03(scan);
-        c += bo04(scan);
-        c += bo05(scan);
+//        c += bo04(scan);
+//        c += bo05(scan);
         c += bo06(scan);
         c += bo07(scan);
         c += bo08(scan);
-        c += bo09(scan);
+        //c += bo09(scan);
         System.out.println(String.format("=========================\n" +
-                "correct rate:%.2f", (double) c / 5 * 9) + "%");
+                "correct rate:%.2f", ((double) c / (10 * 6)) * 100) + "%");
     }
 
     /**
-     * &运算,5道题
+     * &运算
      */
     private int bo01(Scanner scan) {
-        System.out.println("一、&运算");
+        System.out.println("======='&运算'=======");
         return template(scan, 1);
     }
 
     /**
-     * |运算,5道题
+     * |运算
      */
     private int bo02(Scanner scan) {
-        System.out.println("二、|运算");
+        System.out.println("======='|运算'=======");
         return template(scan, 2);
     }
 
     /**
-     * ^运算,5道题
+     * ^运算
      */
     private int bo03(Scanner scan) {
-        System.out.println("三、^运算");
+        System.out.println("======='^运算'=======");
         return template(scan, 3);
     }
 
     /**
-     * <<运算,5道题
+     * <<运算
      */
     private int bo04(Scanner scan) {
-        System.out.println("四、<<运算");
+        System.out.println("======='<<运算'=======");
         return template(scan, 4);
     }
 
     /**
-     * >>运算,5道题
+     * >>运算
      */
     private int bo05(Scanner scan) {
-        System.out.println("五、<<运算");
+        System.out.println("======='<<运算'=======");
         return template(scan, 5);
     }
 
     /**
-     * +运算,5道题
+     * +运算
      */
     private int bo06(Scanner scan) {
-        System.out.println("六、+运算");
+        System.out.println("======='+运算'=======");
         return template(scan, 6);
     }
 
     /**
-     * -运算,5道题
+     * -运算
      */
     private int bo07(Scanner scan) {
-        System.out.println("七、-运算");
+        System.out.println("======='-运算'=======");
         return template(scan, 7);
     }
 
     /**
-     * *运算,5道题
+     * *运算
      */
     private int bo08(Scanner scan) {
-        System.out.println("八、*运算");
+        System.out.println("======='*运算'=======");
         return template(scan, 8);
     }
 
     /**
-     * /运算,5道题
+     * /运算
      */
     private int bo09(Scanner scan) {
-        System.out.println("九、/运算");
+        System.out.println("======='/运算'=======");
         return template(scan, 9);
     }
 
     private int template(Scanner scan, int t) {
-        var c = 5;
+        var c = 10;
         var s = 0;
         do {
-            var s1 = getBinaryString();
-            var s2 = getBinaryString();
+            var s1 = getBinaryString(8 == t || 9 == t ? 4 : 8);
+            var s2 = getBinaryString(8 == t || 9 == t ? 4 : 8);
             System.out.println(String.format("%s\n%s\ninput:", s1, s2));
-            var r = operation(s1, s2, scan.nextLine(), t);
+            var rt = operation(s1, s2, scan.nextLine(), t);
+            var r = rt.getSuccess();
+            if (!r) {
+                System.out.println(String.format("answer:%s", rt.getAnswer()));
+            }
             System.out.println(String.format("result:%s\n", r));
             s = r ? ++s : s;
             --c;
@@ -131,23 +135,59 @@ public class Starter {
         return s;
     }
 
-    private boolean operation(String s1, String s2, String i, int t) {
-        var result = false;
+    private Result operation(String s1, String s2, String i, int t) {
+        Result result = null;
+        s1 = s1.replaceAll(" ", "");
+        s2 = s2.replaceAll(" ", "");
+        result = new Result((byte) (parse(s1) & parse(s2)) == (byte) parse(i), format((byte) (parse(s1) & parse(s2))));
         switch (t) {
-            case 1 -> result = (parseInt(s1) & parseInt(s2)) == parseInt(i);
-            case 2 -> result = (parseInt(s1) | parseInt(s2)) == parseInt(i);
-            case 3 -> result = (parseInt(s1) ^ parseInt(s2)) == parseInt(i);
-            case 4 -> result = (parseInt(s1) << parseInt(s2)) == parseInt(i);
-            case 5 -> result = (parseInt(s1) >> parseInt(s2)) == parseInt(i);
-            case 6 -> result = (parseInt(s1) + parseInt(s2)) == parseInt(i);
-            case 7 -> result = (parseInt(s1) - parseInt(s2)) == parseInt(i);
-            case 8 -> result = (parseInt(s1) * parseInt(s2)) == parseInt(i);
-            case 9 -> result = (parseInt(s1) / parseInt(s2)) == parseInt(i);
+            case 1 -> {
+                var r = (byte) (parse(s1) & parse(s2));
+                result = new Result(r == (byte) parse(i), format(r));
+            }
+            case 2 -> {
+                var r = (byte) (parse(s1) | parse(s2));
+                result = new Result(r == (byte) parse(i), format(r));
+            }
+            case 3 -> {
+                var r = (byte) (parse(s1) ^ parse(s2));
+                result = new Result(r == (byte) parse(i), format(r));
+            }
+            case 4 -> {
+                var r = (byte) (parse(s1) << parse(s2));
+                result = new Result(r == (byte) parse(i), format(r));
+            }
+            case 5 -> {
+                var r = (byte) (parse(s1) >> parse(s2));
+                result = new Result(r == (byte) parse(i), format(r));
+            }
+            case 6 -> {
+                var r = (byte) (parse(s1) + parse(s2));
+                result = new Result(r == (byte) parse(i), format(r));
+            }
+            case 7 -> {
+                var r = (byte) (parse(s1) - parse(s2));
+                result = new Result(r == (byte) parse(i), format(r));
+            }
+            case 8 -> {
+                var r = (byte) (parse(s1) * parse(s2));
+                result = new Result(r == (byte) parse(i), format(r));
+            }
+            case 9 -> {
+                var r = (byte) (parse(s1) / parse(s2));
+                result = new Result(r == (byte) parse(i), format(r));
+            }
         }
         return result;
     }
 
-    private int parseInt(String s) {
+    private String format(byte r) {
+        var s = Integer.toBinaryString(r);
+        return s.length() > 8 ? s.substring(s.length() - 8) : s;
+    }
+
+
+    private int parse(String s) {
         return Integer.parseInt(s, 2);
     }
 
@@ -156,13 +196,17 @@ public class Starter {
      *
      * @return
      */
-    private String getBinaryString() {
+    private String getBinaryString(int bit) {
         var buf = new StringBuffer();
         // 确保都是正数
-        buf.append("0");
-        for (int i = 0; i < 7; i++) {
-            buf.append((int) (Math.random() * 2));
+        buf.append("0 ");
+        for (int i = 0; i < bit - 1; i++) {
+            buf.append(String.format("%s%s", (int) (Math.random() * 2), " "));
         }
         return buf.toString();
+    }
+
+    private String getBinaryString() {
+        return getBinaryString(8);
     }
 }
