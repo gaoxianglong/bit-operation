@@ -23,6 +23,11 @@ import java.util.Scanner;
  * @date created in 2022/5/17 00:18
  */
 public class Starter {
+    /**
+     * 每一类型题目的数量
+     */
+    private int num = 15;
+
     public static void main(String[] args) {
         new Starter().run();
     }
@@ -40,7 +45,7 @@ public class Starter {
         c += bo08(scan);
         //c += bo09(scan);
         System.out.println(String.format("=========================\n" +
-                "correct rate:%.2f", ((double) c / (10 * 6)) * 100) + "%");
+                "correct rate:%.2f", ((double) c / (num * 6)) * 100) + "%");
     }
 
     /**
@@ -116,7 +121,7 @@ public class Starter {
     }
 
     private int template(Scanner scan, int t) {
-        var c = 10;
+        var c = num;
         var s = 0;
         do {
             var s1 = getBinaryString(8 == t || 9 == t ? 4 : 8);
@@ -136,49 +141,21 @@ public class Starter {
     }
 
     private Result operation(String s1, String s2, String i, int t) {
-        Result result = null;
         s1 = s1.replaceAll(" ", "");
         s2 = s2.replaceAll(" ", "");
-        result = new Result((byte) (parse(s1) & parse(s2)) == (byte) parse(i), format((byte) (parse(s1) & parse(s2))));
+        int r = -1;
         switch (t) {
-            case 1 -> {
-                var r = (byte) (parse(s1) & parse(s2));
-                result = new Result(r == (byte) parse(i), format(r));
-            }
-            case 2 -> {
-                var r = (byte) (parse(s1) | parse(s2));
-                result = new Result(r == (byte) parse(i), format(r));
-            }
-            case 3 -> {
-                var r = (byte) (parse(s1) ^ parse(s2));
-                result = new Result(r == (byte) parse(i), format(r));
-            }
-            case 4 -> {
-                var r = (byte) (parse(s1) << parse(s2));
-                result = new Result(r == (byte) parse(i), format(r));
-            }
-            case 5 -> {
-                var r = (byte) (parse(s1) >> parse(s2));
-                result = new Result(r == (byte) parse(i), format(r));
-            }
-            case 6 -> {
-                var r = (byte) (parse(s1) + parse(s2));
-                result = new Result(r == (byte) parse(i), format(r));
-            }
-            case 7 -> {
-                var r = (byte) (parse(s1) - parse(s2));
-                result = new Result(r == (byte) parse(i), format(r));
-            }
-            case 8 -> {
-                var r = (byte) (parse(s1) * parse(s2));
-                result = new Result(r == (byte) parse(i), format(r));
-            }
-            case 9 -> {
-                var r = (byte) (parse(s1) / parse(s2));
-                result = new Result(r == (byte) parse(i), format(r));
-            }
+            case 1 -> r = parse(s1) & parse(s2);
+            case 2 -> r = parse(s1) | parse(s2);
+            case 3 -> r = parse(s1) ^ parse(s2);
+            case 4 -> r = parse(s1) << parse(s2);
+            case 5 -> r = parse(s1) >> parse(s2);
+            case 6 -> r = parse(s1) + parse(s2);
+            case 7 -> r = parse(s1) - parse(s2);
+            case 8 -> r = parse(s1) * parse(s2);
+            case 9 -> r = parse(s1) / parse(s2);
         }
-        return result;
+        return new Result((byte) r == (byte) parse(i), format((byte) r));
     }
 
     private String format(byte r) {
