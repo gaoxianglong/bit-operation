@@ -48,7 +48,7 @@ public class Starter {
      */
     private int bo01(Scanner scan) {
         System.out.println("一、&运算");
-        return template(scan, "&", 1);
+        return template(scan, 1);
     }
 
     /**
@@ -56,7 +56,7 @@ public class Starter {
      */
     private int bo02(Scanner scan) {
         System.out.println("二、|运算");
-        return template(scan, "|", 2);
+        return template(scan, 2);
     }
 
     /**
@@ -64,7 +64,7 @@ public class Starter {
      */
     private int bo03(Scanner scan) {
         System.out.println("三、^运算");
-        return template(scan, "^", 3);
+        return template(scan, 3);
     }
 
     /**
@@ -72,7 +72,7 @@ public class Starter {
      */
     private int bo04(Scanner scan) {
         System.out.println("四、<<运算");
-        return template(scan, "<<", 4);
+        return template(scan, 4);
     }
 
     /**
@@ -80,7 +80,7 @@ public class Starter {
      */
     private int bo05(Scanner scan) {
         System.out.println("五、<<运算");
-        return template(scan, ">>", 5);
+        return template(scan, 5);
     }
 
     /**
@@ -88,7 +88,7 @@ public class Starter {
      */
     private int bo06(Scanner scan) {
         System.out.println("六、+运算");
-        return template(scan, "+", 6);
+        return template(scan, 6);
     }
 
     /**
@@ -96,7 +96,7 @@ public class Starter {
      */
     private int bo07(Scanner scan) {
         System.out.println("七、-运算");
-        return template(scan, "-", 7);
+        return template(scan, 7);
     }
 
     /**
@@ -104,7 +104,7 @@ public class Starter {
      */
     private int bo08(Scanner scan) {
         System.out.println("八、*运算");
-        return template(scan, "*", 8);
+        return template(scan, 8);
     }
 
     /**
@@ -112,17 +112,16 @@ public class Starter {
      */
     private int bo09(Scanner scan) {
         System.out.println("九、/运算");
-        return template(scan, "/", 9);
+        return template(scan, 9);
     }
 
-    private int template(Scanner scan, String sign, int t) {
+    private int template(Scanner scan, int t) {
         var c = 5;
-        var n = 1;
         var s = 0;
         do {
             var s1 = getBinaryString();
             var s2 = getBinaryString();
-            System.out.println(String.format("%s、%s %s %s\ninput:", n++, s1, sign, s2));
+            System.out.println(String.format("%s\n%s\ninput:", s1, s2));
             var r = operation(s1, s2, scan.nextLine(), t);
             System.out.println(String.format("result:%s\n", r));
             s = r ? ++s : s;
