@@ -123,16 +123,18 @@ public class Starter {
     private int template(Scanner scan, int t) {
         var c = num;
         var s = 0;
+        var n = 0;
         do {
             var s1 = getBinaryString(8 == t || 9 == t ? 4 : 8);
             var s2 = getBinaryString(8 == t || 9 == t ? 4 : 8);
-            System.out.println(String.format("%s\n%s\ninput:", s1, s2));
+            System.out.printf("第%s题\n", ++n);
+            System.out.printf("%s\n%s\ninput:\n", s1, s2);
             var rt = operation(s1, s2, scan.nextLine(), t);
             var r = rt.getSuccess();
             if (!r) {
-                System.out.println(String.format("answer:%s", rt.getAnswer()));
+                System.out.printf("answer:%s\n", rt.getAnswer());
             }
-            System.out.println(String.format("result:%s\n", r));
+            System.out.printf("result:%s\n\n", r);
             s = r ? ++s : s;
             --c;
         }
