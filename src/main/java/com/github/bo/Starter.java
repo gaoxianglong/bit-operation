@@ -141,8 +141,9 @@ public class Starter {
     }
 
     private Result operation(String s1, String s2, String i, int t) {
-        s1 = s1.replaceAll(" ", "");
-        s2 = s2.replaceAll(" ", "");
+        s1 = trim(s1);
+        s2 = trim(s2);
+        i = trim(i);
         int r = -1;
         switch (t) {
             case 1 -> r = parse(s1) & parse(s2);
@@ -163,6 +164,15 @@ public class Starter {
         return s.length() > 8 ? s.substring(s.length() - 8) : s;
     }
 
+    /**
+     * 去除字符串空格
+     *
+     * @param str
+     * @return
+     */
+    private String trim(String str) {
+        return str.replaceAll(" ", "");
+    }
 
     private int parse(String s) {
         return Integer.parseInt(s, 2);
